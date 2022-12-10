@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service
 class MysqlTestConfiguration(private val personDataAdder: PersonDataAdder) {
     @PostConstruct
     fun addPersonData() {
-        personDataAdder.addNPersons(10_000)
+        personDataAdder.addNPersons(50_000)
     }
 }
