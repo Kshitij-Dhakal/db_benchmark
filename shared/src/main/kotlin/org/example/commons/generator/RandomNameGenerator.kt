@@ -1,4 +1,4 @@
-package org.example.generator
+package org.example.commons.generator
 
 import java.util.*
 

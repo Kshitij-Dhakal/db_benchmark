@@ -1,22 +1,22 @@
-package org.example.entity.config
+package org.example.commons.config
 
-import org.example.data_adder.PersonDataAdder
-import org.example.data_adder.PersonDataAdderImpl
-import org.example.data_adder.PersonDataAdderTimerDecorator
-import org.example.generator.RandomNameGenerator
-import org.example.repo.PersonRepo
+import org.example.commons.adder.PersonDataAdder
+import org.example.commons.adder.PersonDataAdderImpl
+import org.example.commons.adder.PersonDataAdderTimer
+import org.example.commons.generator.RandomNameGenerator
+import org.example.commons.repo.PersonRepo
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class DataAdderConfig {
+class MysqlDataAdderConfig {
     @Bean
     fun PersonDataAdder(
         personRepo: PersonRepo,
         randomNameGenerator: RandomNameGenerator
     ): PersonDataAdder {
         val personDataAdder = PersonDataAdderImpl(personRepo, randomNameGenerator)
-        return PersonDataAdderTimerDecorator(personDataAdder)
+        return PersonDataAdderTimer(personDataAdder)
     }
 
     @Bean
