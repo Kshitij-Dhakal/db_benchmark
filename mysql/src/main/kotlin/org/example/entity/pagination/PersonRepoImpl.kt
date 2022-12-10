@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 class PersonRepoImpl(private val jdbcTemplate: JdbcTemplate) : PersonRepo {
     override fun addPerson(person: Person) {
         jdbcTemplate
-            .execute(
+            .update(
                 "INSERT INTO person (id, displayName, createdDate) VALUES(?, ?, ?)"
             ) {
                 it.setString(1, person.id.toString())

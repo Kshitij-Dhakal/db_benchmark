@@ -1,5 +1,5 @@
 package org.example.data_adder
 
-interface PersonDataAdder{
+interface PersonDataAdder {
     fun add1MillionPersons()
 }

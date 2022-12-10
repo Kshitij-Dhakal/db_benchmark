@@ -5,6 +5,8 @@ import org.example.generator.RandomNameGenerator
 import org.example.repo.PersonRepo
 import java.util.*
 
+private const val PERSON_SAMPLE_SIZE = 1_000_000L
+
 open class PersonDataAdderImpl(
     private val personRepo: PersonRepo,
     private val randomNameGenerator: RandomNameGenerator
@@ -13,18 +15,17 @@ open class PersonDataAdderImpl(
     override fun add1MillionPersons() {
         println("Populating person table")
         val count = personRepo.countAllPersons()
-        if (count >= 1000000) {
+        if (count >= PERSON_SAMPLE_SIZE) {
             println("Data already exists")
             return
         }
         println("Deleting existing data")
         personRepo.deleteAllPersons()
         println("Adding persons")
-        var createdDate = System.currentTimeMillis()
         // using a for loop
-        for (i in 1..1_000_000) {
+        for (i in 1..PERSON_SAMPLE_SIZE) {
             // do something
-            val person = Person(UUID.randomUUID(), randomNameGenerator.getRandomName(i), createdDate++)
+            val person = Person(UUID.randomUUID(), randomNameGenerator.getRandomName(i), i)
             personRepo.addPerson(person)
         }
         println("1M persons added")
