@@ -1,5 +1,5 @@
 package org.example.benchmark.pagination
 
 interface PaginationBenchmark {
-    fun runBenchmark()
+    fun runBenchmark(): List<Long>
 }
