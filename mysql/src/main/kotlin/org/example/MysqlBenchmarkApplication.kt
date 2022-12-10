@@ -1,4 +1,4 @@
-package com.example
+package org.example.mysql_benchmark
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
