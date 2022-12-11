@@ -18,7 +18,7 @@ class MysqlTestConfiguration(
         personDataAdder.addNPersons(sampleSize)
     }
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     fun getExecutorService(): ExecutorService {
         return Executors.newFixedThreadPool(10)
     }

@@ -3,8 +3,10 @@ package org.example
 import jakarta.annotation.PostConstruct
 import org.example.benchmark.pagination.MysqlRowNumberPaginatedListFetcher
 import org.example.benchmark.pagination.MysqlWherePaginatedListFetcher
+import org.example.benchmark.pagination.PaginatedListFetcher
 import org.example.benchmark.pagination.PaginationBenchmarkTimer
 import org.example.commons.TestConfiguration
+import org.example.commons.entity.Person
 import org.example.commons.generator.ReportGenerator
 import org.example.pagination.MysqlOffsetPaginatedListFetcher
 import org.springframework.stereotype.Service
@@ -17,11 +19,18 @@ class MysqlTestRunner(
     private val f2: MysqlRowNumberPaginatedListFetcher
 ) {
     @PostConstruct
-    fun runBenchmark() {
+    fun runBenchmark() = run {
         val data = mutableMapOf<String, List<Long>>()
-        data["mysql offset"] = PaginationBenchmarkTimer(f1, testConfiguration).runBenchmark()
-        data["mysql row_number"] = PaginationBenchmarkTimer(f2, testConfiguration).runBenchmark()
-        data["mysql where"] = PaginationBenchmarkTimer(f3, testConfiguration).runBenchmark()
-        ReportGenerator().generateReport(data, "pagination_report.csv")
+        data["mysql offset"] = internalRunBenchmark(f1)
+        data["mysql row_number"] = internalRunBenchmark(f2)
+        data["mysql where"] = internalRunBenchmark(f3)
+        ReportGenerator(testConfiguration).generateReport(data, "pagination_report.csv")
+    }
+
+    private fun internalRunBenchmark(
+        paginatedListFetcher: PaginatedListFetcher<Person>
+    ): List<Long> {
+        println("Running benchmark for ${paginatedListFetcher.javaClass}")
+        return PaginationBenchmarkTimer(paginatedListFetcher, testConfiguration).runBenchmark()
     }
 }
