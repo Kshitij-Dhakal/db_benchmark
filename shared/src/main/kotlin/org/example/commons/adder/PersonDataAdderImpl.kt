@@ -13,7 +13,7 @@ open class PersonDataAdderImpl(
     override fun addNPersons(n: Number) {
         println("Populating person table")
         val count = personRepo.countAllPersons()
-        if (count == n.toLong()) {
+        if (count >= n.toLong()) {
             println("Data already exists")
             return
         }
