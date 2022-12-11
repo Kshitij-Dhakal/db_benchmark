@@ -3,6 +3,7 @@ package org.example.commons.repo
 import org.example.commons.entity.Person
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class MysqlPersonRepoImpl(private val jdbcTemplate: JdbcTemplate) : PersonRepo {
@@ -49,5 +50,19 @@ class MysqlPersonRepoImpl(private val jdbcTemplate: JdbcTemplate) : PersonRepo {
         val query = "SELECT * FROM person WHERE createdDate BETWEEN ? AND ? ORDER BY $property $order"
         return jdbcTemplate
             .query(query, PersonRowMapper(), r1, r2)
+    }
+
+    @Transactional
+    override fun addAll(records: List<Person>) {
+        jdbcTemplate
+            .batchUpdate(
+                "INSERT INTO person (id, displayName, createdDate) VALUES(?, ?, ?)",
+                records,
+                1000
+            ) { ps, person ->
+                ps.setString(1, person.id.toString())
+                ps.setString(2, person.displayName)
+                ps.setLong(3, person.createdDate)
+            }
     }
 }

@@ -5,11 +5,11 @@ import java.util.*
 
 class ReportGenerator {
     fun generateReport(data: Map<String, List<Long>>, filePath: String) {
-        val sortedData: SortedMap<String, List<Long>>
-        if (data is SortedMap) {
-            sortedData = data
+        //=ADD(MULTIPLY(MINUS(ROW(),2),1000),1)
+        val sortedData: SortedMap<String, List<Long>> = if (data is SortedMap) {
+            data
         } else {
-            sortedData = data.toSortedMap()
+            data.toSortedMap()
         }
         val csvBodyRows = mutableListOf(sortedData.keys.joinToString(", "))
         val numList = data.entries.first().value
@@ -27,12 +27,4 @@ class ReportGenerator {
         println("Report generated on ${file.absoluteFile}")
     }
 
-    fun generateReportH(data: Map<String, List<Long>>, filePath: String) {
-        val entryStrings = data.map { "${it.key}: ${it.value.joinToString(", ")}" }
-
-        val csvBody = entryStrings.joinToString("\n")
-        val file = File("h.$filePath")
-        file.writeText(csvBody)
-        println("Report generated on ${file.absoluteFile}")
-    }
 }

@@ -1,8 +1,12 @@
 package org.example.benchmark.pagination
 
+import org.example.commons.TestConfiguration
 import kotlin.system.measureTimeMillis
 
-class PaginationBenchmarkTimer<T>(private val paginatedListFetcher: PaginatedListFetcher<T>) :
+class PaginationBenchmarkTimer<T>(
+    private val paginatedListFetcher: PaginatedListFetcher<T>,
+    private val testConfiguration: TestConfiguration
+) :
     PaginationBenchmark {
     override fun runBenchmark(): List<Long> {
         println("Running pagination benchmark")
@@ -10,8 +14,8 @@ class PaginationBenchmarkTimer<T>(private val paginatedListFetcher: PaginatedLis
         val numbers = mutableListOf<Long>()
         val elapsedTime = measureTimeMillis {
             // do something here
-            for (i in 1..50_000 step 500) {
-                numbers.add(fetchNext(i.toLong()))
+            for (i in 1..testConfiguration.sampleSize.toLong() step testConfiguration.stepSize.toLong()) {
+                numbers.add(fetchNext(i))
             }
         }
         println("Elapsed time: $elapsedTime ms")
