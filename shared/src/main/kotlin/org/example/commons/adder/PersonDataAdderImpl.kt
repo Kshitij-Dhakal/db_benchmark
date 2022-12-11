@@ -10,22 +10,24 @@ open class PersonDataAdderImpl(
     private val randomNameGenerator: RandomNameGenerator
 ) :
     PersonDataAdder {
-    override fun addNPersons(n: Long) {
+    override fun addNPersons(n: Number) {
         println("Populating person table")
         val count = personRepo.countAllPersons()
-        if (count == n) {
+        if (count == n.toLong()) {
             println("Data already exists")
             return
         }
-        println("Deleting existing data")
+        println("$count records exists! Deleting existing records.")
         personRepo.deleteAllPersons()
         println("Adding persons")
         // using a for loop
-        for (i in 1..n) {
+        val records = mutableListOf<Person>()
+        for (i in 1..n.toLong()) {
             // do something
-            val person = Person(UUID.randomUUID(), randomNameGenerator.getRandomName(i), i)
-            personRepo.addPerson(person)
+            val person = Person(UUID.randomUUID(), randomNameGenerator.getRandomName(), i)
+            records.add(person)
         }
-        println("1M persons added")
+        personRepo.addAll(records)
+        println("${n.toLong()} persons added")
     }
 }

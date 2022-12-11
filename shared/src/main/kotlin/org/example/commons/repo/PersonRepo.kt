@@ -14,4 +14,6 @@ interface PersonRepo {
     fun getPersonsRowNumberBetween(property: String, order: String, r1: Long, r2: Long): List<Person>
 
     fun getPersonsWhereBetween(property: String, order: String, r1: Long, r2: Long): List<Person>
+
+    fun addAll(records: List<Person>)
 }
