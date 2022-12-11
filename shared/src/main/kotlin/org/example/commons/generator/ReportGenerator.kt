@@ -12,7 +12,7 @@ class ReportGenerator(private val testConfiguration: TestConfiguration) {
         } else {
             data.toSortedMap()
         }
-        val csvBodyRows = mutableListOf("rows, ${sortedData.keys.joinToString(", ")}")
+        val csvBodyRows = mutableListOf("row, ${sortedData.keys.joinToString(", ")}")
         val numList = data.entries.first().value
 
         for (i in 1..numList.size) {
